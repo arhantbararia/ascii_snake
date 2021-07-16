@@ -60,7 +60,7 @@ void Draw()
             if (j == width - 1)
                 std::cout << "#";
             if (i == foody && j == foodx)
-                std::cout << "()";
+                std::cout << "(@)";
         }
         std::cout << "\n";
     }
