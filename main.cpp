@@ -1,13 +1,16 @@
 #include<iostream>
 #include<random>
+#include<conio.h>
+
+
 
 bool gameOver;
-static  int width = 20;
-static  int height = 20;
+int width = 20;
+int height = 20;
 
-int x , y , foodx, foody, score;
+int x, y, foodx, foody, score;
 
-enum eDirection { STOP = 0 , LEFT, RIGHT , UP, DOWN};
+enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 
 eDirection dir;
 
@@ -21,13 +24,14 @@ void setup()
 {
     gameOver = false;
     dir = STOP;
-    x = width/2;
-    y = height/2;
+    x = width / 2;
+    y = height / 2;
 
-    foodx = rand()%width;
-    foody = rand()%height;
+    foodx = rand() % width;
+    foody = rand() % height;
 
     score = 0;
+
 
 }
 
@@ -35,44 +39,89 @@ void Draw()
 {
     system("cls");
 
-    for(int i = 0 ; i< width ; i++)
-        std::cout<<"#";
-    
-    for(int i = 0 ; i < height ; i++)
-    {
-        
-        for(int j=0; j<width ; j++)
-        {
-            if(j == 0  )
-            {
-                std::cout<<"#";
-                std::cout<<" \t\t ";
-            }
+    for (int i = 0; i < width + 2; i++)
+        std::cout << "#";
+    std::cout << "\n";
 
-            if(j == width-1)
-            {
-                std::cout<<"#";
-            }
-            
+    for (int i = 0; i < height; i++)
+    {
+
+        for (int j = 0; j < width; j++)
+        {
+            if (j == 0)
+                std::cout << "#";
+
+            if (i == y && j == x)
+                std::cout << "O";
+
+            else
+                std::cout << " ";
+
+            if (j == width - 1)
+                std::cout << "#";
+
         }
-        std::cout<<"\n";
+        std::cout << "\n";
     }
 
-    for(int i = 0 ; i < width ; i++)
+    for (int i = 0; i < width; i++)
     {
-        std::cout<<"#";
+        std::cout << "#";
     }
 
 }
 
 void Input()
 {
+    if (_kbhit())
+    {
+        switch (_getch())
+        {
+        case 'a':
+            dir = LEFT;
+            break;
+
+        case 'd':
+            dir = RIGHT;
+            break;
+        case 'w':
+            dir = UP;
+            break;
+        case 's':
+            dir = DOWN;
+            break;
+        case 'x':
+            gameOver = true;
+            break;
+        }
+    }
 
 }
 
 void Logic()
 {
+    switch (dir)
+    {
+    case LEFT:
+        x--;
+        break;
+    case RIGHT:
+        x++;
+        break;
+    case DOWN:
+        y++;
+        break;
+    case UP:
+        y--;
+        break;
 
+       
+    }
+
+    if (x < 0 || x > width || y<0 || y > height)
+    {
+        gameOver = true;
+    }
 }
 
 int main()
@@ -81,12 +130,12 @@ int main()
 
     setup();
 
-    while(!gameOver)
+    while (!gameOver)
     {
         Draw();
         Input();
         Logic();
     }
- 
+
     return 0;
 }
