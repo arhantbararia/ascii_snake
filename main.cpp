@@ -59,7 +59,8 @@ void Draw()
 
             if (j == width - 1)
                 std::cout << "#";
-
+            if (i == foody && j == foodx)
+                std::cout << "@";
         }
         std::cout << "\n";
     }
@@ -121,6 +122,14 @@ void Logic()
     if (x < 0 || x > width || y<0 || y > height)
     {
         gameOver = true;
+    }
+
+
+    if (x == foodx && y == foody)
+    {
+        score += 10;
+        foodx = rand() % width;
+        foody = rand() % height;
     }
 }
 
