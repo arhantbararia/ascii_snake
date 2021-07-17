@@ -119,12 +119,25 @@ void Logic()
        
     }
 
-    if (x < 0 || x > width || y<0 || y > height)
+    if (x < 0)
     {
-        gameOver = true;
+        x = width-1;
+        
     }
+    if (y < 0)
+    {
+        y = height - 1;
 
+    }
+    if (x > width)
+    {
+        x = 0;
 
+    }
+    if (y > height)
+    {
+        y = 0;
+    }
     if (x == foodx && y == foody)
     {
         score += 10;
