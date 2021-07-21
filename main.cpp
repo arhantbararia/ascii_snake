@@ -8,7 +8,11 @@ bool gameOver;
 int width = 20;
 int height = 20;
 
+
 int x, y, foodx, foody, score;
+
+int tail =1;
+int tailX[100], tailY[100];
 
 enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 
@@ -31,6 +35,7 @@ void setup()
     foody = rand() % height;
 
     score = 0;
+    
 
 
 }
@@ -52,15 +57,53 @@ void Draw()
                 std::cout << "#";
 
             if (i == y && j == x)
-                std::cout << "O";
+            {
+                switch (dir)
+                {
+                case LEFT: std::cout << "<";
+                    break;
+                case RIGHT: std::cout << ">";
+                    break;
+                case UP: std::cout << "^";
+                    break;
+                case DOWN: std::cout << "V";
+                    break;
+                default: std::cout << "O";
+                }
 
-            else
-                std::cout << " ";
+            }
+                
+            else if (i == foody && j == foodx)
+                std::cout << "@";
 
+            else 
+            {
+                 
+
+                bool print = false;
+
+                for (int k = 0; k < tail; k++)
+                {
+                    
+
+                    if (tailX[k] == j && tailY[k] == i)
+                    {
+                        std::cout << "o";
+                        print = true;
+                        
+
+                    }
+                    
+                }
+                if (!print)
+                {
+                    std::cout << " ";
+                }
+                
+            }
             if (j == width - 1)
                 std::cout << "#";
-            if (i == foody && j == foodx)
-                std::cout << "@";
+            
         }
         std::cout << "\n";
     }
@@ -100,7 +143,28 @@ void Input()
 }
 
 void Logic()
-{
+{   
+    
+
+    tailX[0] = x;
+    tailY[0] = y;
+
+    for (int i = tail; i >= 0; i--)
+    { /*
+        Prev2X= tailX[i];
+        Prev2Y= tailY[i];
+
+        tailX[i] = PrevX;
+        tailY[i] = PrevY;
+
+        PrevX = Prev2X;
+        PrevY = Prev2Y;
+*/
+        tailX[i] = tailX[i - 1];
+        tailY[i] = tailY[i - 1];
+
+    }
+    
     switch (dir)
     {
     case LEFT:
@@ -140,10 +204,14 @@ void Logic()
     }
     if (x == foodx && y == foody)
     {
+        
+        tail++;
         score += 10;
         foodx = rand() % width;
         foody = rand() % height;
     }
+
+    
 }
 
 int main()
@@ -157,6 +225,7 @@ int main()
         Draw();
         Input();
         Logic();
+        std::cout << "Score: " << score << std::endl;
     }
 
     return 0;
